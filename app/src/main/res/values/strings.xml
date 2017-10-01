@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DragonGlass</string>
+    <string name="lock_me">Bloquear Ahora</string>
+    <string name="device_admin_explanation">Para pruebas de administracion de dispositivos para Gabriel</string>
+
+    <string name="act_main_btnstartservicelock">Iniciar Servicio Lock App</string>
+    <string name="act_main_btnstopservicelock">Detener Servicio Lock App</string>
+    <string name="act_main_btnforcewallpaper">Aplicar Fondo Pantalla</string>
+    <string name="act_main_btngotoconnectionlockact">Control de Conexiones</string>
+
+    <string name="act_conn_lock_lblinfo">Notas:<br/> (1)Activar/Desactivar Redes moviles solo funciona en equipos con Root.
+        <br/>(2)Las llamadas salientes pueden ser desviadas a un número inexistente o a uno especifico.
+        <br/>(3)Las llamadas entrantes pueden ser colgadas después de cierto tiempo. En esta implementación: 1 segundo.
+    </string>
+
+</resources>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="arm64-v8a,armeabi-v7a,armeabi"
+    api-level="23"
+    density="xxhdpi"
+    format="7"
+    timestamp="1299926393612057" >
+
+    <task
+        name="javac"
+        duration="415" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="38" />
+    <task
+        name="verifier"
+        duration="55" />
+
+    <artifact
+        location="C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_7\classes.dex"
+        type="DEX" />
+    <artifact
+        location="C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_6\classes.dex"
+        type="DEX" />
+
+    <build timestamp="1297667644279731" >
+        <artifact
+            location="C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\outputs\apk\app-debug.apk"
+            type="MAIN" />
+    </build>
+    <build timestamp="1298346092924776" >
+        <artifact
+            location="C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_0\classes.dex"
+            type="DEX" />
+    </build>
+    <build timestamp="1299392779912100" >
+        <artifact
+            location="C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_5\classes.dex"
+            type="DEX" />
+        <artifact
+            location="C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_9\classes.dex"
+            type="DEX" />
+    </build>
+    <build timestamp="1299926393612057" >
+        <artifact
+            location="C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_7\classes.dex"
+            type="DEX" />
+        <artifact
+            location="C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_6\classes.dex"
+            type="DEX" />
+    </build>
+
+</instant-run>

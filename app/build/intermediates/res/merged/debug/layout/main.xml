@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<Button
+		android:id="@+id/Button1"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:onClick="lockMeNow"
+		android:text="@string/lock_me"/>
+
+	<ImageView
+		android:layout_width="match_parent"
+		android:layout_height="100dp"
+		android:id="@+id/ivPreview"
+		/>
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:onClick="changeWallpaper"
+		android:text="@string/act_main_btnforcewallpaper"
+		android:id="@+id/btnWallpaper" />
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:onClick="startServiceLock"
+		android:text="@string/act_main_btnstartservicelock"
+		android:id="@+id/btnStartServiceLock" />
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:onClick="stopServiceLock"
+		android:text="@string/act_main_btnstopservicelock"
+		android:id="@+id/btnStopServiceLock" />
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:onClick="gotoConnectionLockActivity"
+		android:text="@string/act_main_btngotoconnectionlockact"
+		android:id="@+id/btnGoToConnectionLockAct" />
+
+</LinearLayout>

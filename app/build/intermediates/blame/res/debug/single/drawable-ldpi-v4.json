@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Users\\ISCesar\\AndroidStudioProjects\\dragonglass-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\ISCesar\\AndroidStudioProjects\\dragonglass-app\\app\\src\\main\\res\\drawable-ldpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\ISCesar\\AndroidStudioProjects\\dragonglass-app\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\leonidas_cabo.png",
+        "source": "C:\\Users\\ISCesar\\AndroidStudioProjects\\dragonglass-app\\app\\src\\main\\res\\drawable-ldpi\\leonidas_cabo.png"
+    },
+    {
+        "merged": "C:\\Users\\ISCesar\\AndroidStudioProjects\\cw-omnibus\\DeviceAdmin\\LockMeNow\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\ISCesar\\AndroidStudioProjects\\cw-omnibus\\DeviceAdmin\\LockMeNow\\app\\src\\main\\res\\drawable-ldpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\ISCesar\\AndroidStudioProjects\\cw-omnibus\\DeviceAdmin\\LockMeNow\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\leonidas_cabo.png",
+        "source": "C:\\Users\\ISCesar\\AndroidStudioProjects\\cw-omnibus\\DeviceAdmin\\LockMeNow\\app\\src\\main\\res\\drawable-ldpi\\leonidas_cabo.png"
+    }
+]

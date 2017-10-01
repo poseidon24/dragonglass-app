@@ -1,0 +1,22 @@
+apply plugin: 'com.android.application'
+
+dependencies {
+    compile 'com.jaredrummler:android-processes:1.0.9'
+    //compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    // ##RoboSpice core
+    compile 'com.octo.android.robospice:robospice:1.4.13'
+    // ##Robospice extension - Retrofit module
+    compile 'com.octo.android.robospice:robospice-retrofit:1.4.13'
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "25.0.3"
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/maven/commons-io/commons-io/pom.xml'
+        exclude 'META-INF/maven/commons-io/commons-io/pom.properties'
+    }
+}
