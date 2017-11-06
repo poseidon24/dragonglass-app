@@ -3,7 +3,6 @@ package com.nexti.android.dragonglass.service;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.app.usage.UsageEvents;
-import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
@@ -15,30 +14,40 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.nexti.android.dragonglass.bo.DgMobileBO;
+import com.nexti.android.dragonglass.db.DataSource;
+import com.nexti.android.dragonglass.model.entity.DgMobileEntity;
 import com.nexti.android.dragonglass.view.activity.unlock.UnlockActivity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class LockMeNowService extends Service {
+    private final static String TAG = LockMeNowService.class.getSimpleName();
+
+    public static String CURRENT_PACKAGE_NAME;// = "com.nexti.android.dragonglass";
+    public static String LAST_LOCKED_PACKAGE_NAME = "com.nexti.android.dragonglass";
+    //String lastAppPN = "";
+    //boolean noDelay = false;
+    public static LockMeNowService instance;
+    public static boolean stopped = true;
+    public static List<String> userAppsInstalled = new ArrayList<>();
+    private DataSource dataSource;
+    private DgMobileBO dgMobileBO;
+
+    private static int DG_MOBILE_UNIQUE_ID = 1;
+    private List<String> customAppsList =  new ArrayList<>();
+
     public LockMeNowService() {
         super();
     }
-
-    public static String CURRENT_PACKAGE_NAME = "com.commonsware.android.com.nexti.dragonglass";
-    public static String LAST_LOCKED_PACKAGE_NAME = "com.commonsware.android.com.nexti.dragonglass";
-    String lastAppPN = "";
-    boolean noDelay = false;
-    public static LockMeNowService instance;
-    public static boolean stopped = false;
-    public static List<String> userAppsInstalled = new ArrayList<>();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -49,8 +58,9 @@ public class LockMeNowService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
         CURRENT_PACKAGE_NAME = getApplicationContext().getPackageName();
-        Log.e("Current PN", "" + CURRENT_PACKAGE_NAME);
+        Log.d(TAG, "Current PN: " + CURRENT_PACKAGE_NAME);
         instance = this;
+        stopped = false;
 
         userAppsInstalled = getUserApplicationsInstalled(getApplicationContext());
         startTimer();
@@ -69,7 +79,7 @@ public class LockMeNowService extends Service {
         initializeTimerTask();
 
         //schedule the timer, to wake up every 1 second
-        timer.schedule(timerTask, 1000, 1000); //
+        timer.schedule(timerTask, 500, 500); //1000, 1000); //
     }
 
     /**
@@ -79,7 +89,7 @@ public class LockMeNowService extends Service {
         timerTask = new TimerTask() {
             public void run() {
                 //
-                Log.d("task","task " + stopped);
+                Log.d(TAG,"task " + stopped);
                 if (stopped)
                     stop();
                 else
@@ -91,7 +101,7 @@ public class LockMeNowService extends Service {
     /**
      * not needed
      */
-    public void stoptimertask() {
+    public void stopTimerTask() {
         //stop the timer, if it's not already null
         if (timer != null) {
             timer.cancel();
@@ -99,6 +109,7 @@ public class LockMeNowService extends Service {
         }
     }
 
+    /*
     private void scheduleMethod() {
 
         ScheduledExecutorService scheduler = Executors
@@ -114,29 +125,75 @@ public class LockMeNowService extends Service {
             }
         }, 0, 100, TimeUnit.MILLISECONDS);
     }
+    */
 
     public void checkRunningApps() {
-        Log.d("checkRunningApss", "checkRunningApss");
+        Log.d(TAG, "checkRunningApps");
         //List<AndroidAppProcess> appProcessList = AndroidProcesses.getRunningForegroundApps(getBaseContext());
         //AndroidAppProcess appForegroundIndexZero = appProcessList.get(0);
         //String activityOnTop = appForegroundIndexZero.getPackageName();
-        String activityOnTop = getTopAppName(getApplicationContext());
 
-        Log.d("activity on TOp", "" + activityOnTop);
+        //Check first via database if locking apps is enabled
+        if (isAppLockEnabledOnDb()) {
 
-        // Provide the packagename(s) of apps here, you want to show password activity
-        if (userAppsInstalled.contains(activityOnTop)
-                //activityOnTop.contains("whatsapp")  // you can make this check even better
-                && !activityOnTop.contains(CURRENT_PACKAGE_NAME)
-                && !activityOnTop.contains(LAST_LOCKED_PACKAGE_NAME)) {
-            // Show Password Activity
-            Intent unlockActivity = new Intent(this, UnlockActivity.class);
-            unlockActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(unlockActivity);
-            LAST_LOCKED_PACKAGE_NAME = activityOnTop;
-        } else {
-            // DO nothing
+            String activityOnTop = getTopAppName(getApplicationContext());
+            Log.d(TAG, "activity on Top: " + activityOnTop);
+
+            // Check if the Activity On Top is a User App (not a System App)
+            // AND
+            // Check if the Activity On Top is not this app itself
+            // AND if it is not the last app blocked (to avoid cycling)
+            if (userAppsInstalled.contains(activityOnTop)
+                    && !activityOnTop.contains(CURRENT_PACKAGE_NAME)
+                    && !activityOnTop.contains(LAST_LOCKED_PACKAGE_NAME)) {
+
+                // Check if the specific List of Apps to be locked has not been set (then all apps will be blocked)
+                // OR
+                // if the specific List of Apps to be locked contains the name of the Activity on Top
+                if (customAppsList.size()==0
+                        || (customAppsList.size()>0 && customAppsList.contains(activityOnTop))) {
+                    // Show Locked by Password Activity
+                    Intent unlockActivity = new Intent(this, UnlockActivity.class);
+                    unlockActivity.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(unlockActivity);
+                    LAST_LOCKED_PACKAGE_NAME = activityOnTop;
+                }
+            }
         }
+    }
+
+    public boolean isAppLockEnabledOnDb(){
+        boolean isLockEnabled = false;
+        // TO-DO apply logic for check if UPDATE_TIMESTAMP has exceeded the max time allowed
+        // (this can expose that mobile has not being connected to internet for a long time
+        DgMobileEntity dgMobileEntity = getDgMobileBO().getDgMobileEntity();
+        if (dgMobileEntity!=null){
+            Log.d(TAG,  dgMobileEntity.toString() );
+            // check if there is a Lock-apps instruction on server side established for this device
+            switch (dgMobileEntity.getAppsAccessEnabled()){
+                case 0: //All Apps Access Disabled
+                    //lock all apps
+                    isLockEnabled = true;
+                    customAppsList = new ArrayList<>();
+                    break;
+                case 1: //All Apps Access Enabled
+                    //allow all apps
+                    isLockEnabled = false;
+                    customAppsList = new ArrayList<>();
+                    break;
+                case 2: //List of Apps Disabled
+                    //lock certain set of apps
+                    if (StringUtils.isNotEmpty(dgMobileEntity.getAppsList()) ) {
+                        isLockEnabled = true;
+                        customAppsList = Arrays.asList(dgMobileEntity.getAppsList().split("\\s*,\\s*"));
+                    }
+                    break;
+                case 3: //List of Apps Enabled
+                default:
+                    throw new IllegalStateException("Property AppsAccessEnabled has an unexpected/unimplemented value. " + dgMobileEntity.toString());
+            }
+        }
+        return isLockEnabled;
     }
 
     public static String getTopAppName(Context context) {
@@ -176,10 +233,11 @@ public class LockMeNowService extends Service {
                 }
             }
         }catch (Exception ex){
-            Log.e("err","err",ex);
+            Log.e(TAG,"err",ex);
         }
         return packageName;
     }
+    /*
     private static String getLollipopFGAppPackageName(Context ctx) {
 
         try {
@@ -215,14 +273,15 @@ public class LockMeNowService extends Service {
         }
         return "";
     }
+    */
 
     public static void stop() {
-        Log.d("Stopping Service","Stopping Service");
-        instance.stoptimertask();
+        Log.d(TAG,"Stopping Service");
+        instance.stopTimerTask();
         if (instance != null) {
             stopped = true;
             instance.stopSelf();
-            Log.d("Service stopped","Service stopped");
+            Log.d(TAG,"Service stopped");
         }
     }
 
@@ -245,5 +304,31 @@ public class LockMeNowService extends Service {
             apps.add(p.packageName);
         }
         return apps;
+    }
+
+
+    public DataSource getDataSource() {
+        if (dataSource==null){
+            dataSource = new DataSource(getApplicationContext());
+        }
+        if (dataSource.getDb()!=null && !dataSource.getDb().isOpen()){
+            dataSource.open(true); // opened as ReadOnly if not available
+        }
+        return dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public DgMobileBO getDgMobileBO() {
+        if (dgMobileBO==null){
+            dgMobileBO = new DgMobileBO(getApplicationContext(), getDataSource(), DG_MOBILE_UNIQUE_ID);
+        }
+        return dgMobileBO;
+    }
+
+    public void setDgMobileBO(DgMobileBO dgMobileBO) {
+        this.dgMobileBO = dgMobileBO;
     }
 }

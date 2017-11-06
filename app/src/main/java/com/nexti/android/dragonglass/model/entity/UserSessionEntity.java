@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by ISCesar on 01/08/2017.
  */
-public class UserSessionEntity implements IEntity {
+public class UserSessionEntity extends AuditableEntity implements IEntity {
 
     private int idSession;
     private String userName;
@@ -17,17 +17,15 @@ public class UserSessionEntity implements IEntity {
     private float batteryPct = 0;
     private Date lastServerCommDt;
     private String gcmToken;
-    private Date createTimestamp;
-    private Date updateTimestamp;
-    private int version;
 
-
+    @Override
     public int getId() {
         return idSession;
     }
 
+    @Override
     public void setId(int id) {
-        this.idSession = idSession;
+        this.idSession = id;
     }
 
     public String getUserName() {
@@ -102,34 +100,10 @@ public class UserSessionEntity implements IEntity {
         this.gcmToken = gcmToken;
     }
 
-    public Date getCreateTimestamp() {
-        return createTimestamp;
-    }
-
-    public void setCreateTimestamp(Date createTimestamp) {
-        this.createTimestamp = createTimestamp;
-    }
-
-    public Date getUpdateTimestamp() {
-        return updateTimestamp;
-    }
-
-    public void setUpdateTimestamp(Date updateTimestamp) {
-        this.updateTimestamp = updateTimestamp;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
     @Override
     public String toString() {
         return "UserSessionEntity{" +
-                "id=" + idSession +
+                "idSession=" + idSession +
                 ", userName='" + userName + '\'' +
                 ", userPass='" + userPass + '\'' +
                 ", rememberUser=" + rememberUser +
@@ -139,9 +113,6 @@ public class UserSessionEntity implements IEntity {
                 ", batteryPct=" + batteryPct +
                 ", lastServerCommDt=" + lastServerCommDt +
                 ", gcmToken='" + gcmToken + '\'' +
-                ", createTimestamp=" + createTimestamp +
-                ", updateTimestamp=" + updateTimestamp +
-                ", version=" + version +
-                '}';
+                "} " + super.toString();
     }
 }

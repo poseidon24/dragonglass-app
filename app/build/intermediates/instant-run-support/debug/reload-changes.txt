@@ -1,4 +1,0 @@
-CHANGED,C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\nexti\android\dragonglass\view\activity\main\LockMeNowActivity$1$override.class
-CHANGED,C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\nexti\android\dragonglass\view\activity\main\LockMeNowActivity$override.class
-CHANGED,C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\nexti\android\dragonglass\view\activity\BaseSessionActivity$override.class
-CHANGED,C:\Users\ISCesar\AndroidStudioProjects\cw-omnibus\DeviceAdmin\LockMeNow\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\android\tools\fd\runtime\AppPatchesLoaderImpl.class

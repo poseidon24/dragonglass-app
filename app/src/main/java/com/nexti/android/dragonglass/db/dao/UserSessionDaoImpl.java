@@ -10,21 +10,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.nexti.android.dragonglass.db.DataSource;
-import com.nexti.android.dragonglass.db.qry.UserSession;
+import com.nexti.android.dragonglass.db.qry.UserSessionDbUtils;
+import com.nexti.android.dragonglass.db.qry.UserSessionDbUtils.TableDesc;
 import com.nexti.android.dragonglass.model.entity.UserSessionEntity;
 import com.nexti.android.dragonglass.util.DateUtil;
+import com.nexti.android.dragonglass.util.DbCursorParserUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserSessionDaoImpl implements IDao {
-    public static final String TAG =  "UserSessionDaoImpl";
+public class UserSessionDaoImpl implements IDao<UserSessionEntity> {
     private Context context;
-    // DataSource
     private DataSource ds;
+    private static final String TAG = UserSessionDaoImpl.class.getSimpleName();
 
-    // Contacts table name
-    private static final String TABLE_NAME = UserSession.TABLE_NAME;
+    private static final String TABLE_NAME = UserSessionDbUtils.TABLE_NAME;
 
     public UserSessionDaoImpl(Context context, DataSource dataSource){
         this.context = context;
@@ -32,7 +32,7 @@ public class UserSessionDaoImpl implements IDao {
             ds = dataSource;
             ds.open();
         }catch (Exception e){
-            Log.i(TAG, "Error while openning database.", e);
+            Log.i(TAG, "Error while opening database.", e);
         }
     }
 
@@ -54,25 +54,23 @@ public class UserSessionDaoImpl implements IDao {
         try{
             ContentValues values = new ContentValues();
             //values.put("id_sesion", dto.getIdSesion());
-            values.put(UserSession.UserSessionT.USER_NAME, dto.getUserName());
-            values.put(UserSession.UserSessionT.USER_PASS, dto.getUserPass());
-            values.put(UserSession.UserSessionT.REMEMBER_USER, dto.getRememberUser());
-            values.put(UserSession.UserSessionT.LAST_LATITUDE, dto.getLastLatitude());
-            values.put(UserSession.UserSessionT.LAST_LONGITUDE, dto.getLastLongitude());
-            values.put(UserSession.UserSessionT.IMEI, dto.getImei());
-            values.put(UserSession.UserSessionT.BATTERY_PCT, dto.getBatteryPct());
-            values.put(UserSession.UserSessionT.LAST_SERVER_COMM_DT,DateUtil.dateToSQLDateTime(dto.getLastServerCommDt()));
-            values.put(UserSession.UserSessionT.GCM_TOKEN, dto.getGcmToken());
-            values.put(UserSession.UserSessionT.CREATE_TIMESTAMP,DateUtil.dateToSQLDateTime(dto.getCreateTimestamp()));
-            values.put(UserSession.UserSessionT.UPDATE_TIMESTAMP,DateUtil.dateToSQLDateTime(dto.getUpdateTimestamp()));
-            values.put(UserSession.UserSessionT.VERSION, dto.getVersion());
+            values.put(TableDesc.USER_NAME, dto.getUserName());
+            values.put(TableDesc.USER_PASS, dto.getUserPass());
+            values.put(TableDesc.REMEMBER_USER, dto.getRememberUser());
+            values.put(TableDesc.LAST_LATITUDE, dto.getLastLatitude());
+            values.put(TableDesc.LAST_LONGITUDE, dto.getLastLongitude());
+            values.put(TableDesc.IMEI, dto.getImei());
+            values.put(TableDesc.BATTERY_PCT, dto.getBatteryPct());
+            values.put(TableDesc.LAST_SERVER_COMM_DT,DateUtil.dateToSQLDateTime(dto.getLastServerCommDt()));
+            values.put(TableDesc.GCM_TOKEN, dto.getGcmToken());
+            values.put(TableDesc.CREATE_TIMESTAMP,DateUtil.dateToSQLDateTime(dto.getCreateTimestamp()));
+            values.put(TableDesc.UPDATE_TIMESTAMP,DateUtil.dateToSQLDateTime(dto.getUpdateTimestamp()));
+            values.put(TableDesc.VERSION, dto.getVersion());
 
             // Inserting Row
             id = getDb().insert(TABLE_NAME, null, values);
         }catch(Exception e){
             Log.e(TAG,"Unexpected error",e);
-        }finally{
-            //getDs().close();
         }
         return id;
     }
@@ -83,34 +81,32 @@ public class UserSessionDaoImpl implements IDao {
         try{
             ContentValues values = new ContentValues();
             //values.put("id_sesion", dto.getIdSesion());
-            values.put(UserSession.UserSessionT.USER_NAME, dto.getUserName());
-            values.put(UserSession.UserSessionT.USER_PASS, dto.getUserPass());
-            values.put(UserSession.UserSessionT.REMEMBER_USER, dto.getRememberUser());
-            values.put(UserSession.UserSessionT.LAST_LATITUDE, dto.getLastLatitude());
-            values.put(UserSession.UserSessionT.LAST_LONGITUDE, dto.getLastLongitude());
-            values.put(UserSession.UserSessionT.IMEI, dto.getImei());
-            values.put(UserSession.UserSessionT.BATTERY_PCT, dto.getBatteryPct());
-            values.put(UserSession.UserSessionT.LAST_SERVER_COMM_DT, DateUtil.dateToSQLDateTime(dto.getLastServerCommDt()));
-            values.put(UserSession.UserSessionT.GCM_TOKEN, dto.getGcmToken());
-            values.put(UserSession.UserSessionT.CREATE_TIMESTAMP,DateUtil.dateToSQLDateTime(dto.getCreateTimestamp()));
-            values.put(UserSession.UserSessionT.UPDATE_TIMESTAMP,DateUtil.dateToSQLDateTime(dto.getUpdateTimestamp()));
-            values.put(UserSession.UserSessionT.VERSION, dto.getVersion());
+            values.put(TableDesc.USER_NAME, dto.getUserName());
+            values.put(TableDesc.USER_PASS, dto.getUserPass());
+            values.put(TableDesc.REMEMBER_USER, dto.getRememberUser());
+            values.put(TableDesc.LAST_LATITUDE, dto.getLastLatitude());
+            values.put(TableDesc.LAST_LONGITUDE, dto.getLastLongitude());
+            values.put(TableDesc.IMEI, dto.getImei());
+            values.put(TableDesc.BATTERY_PCT, dto.getBatteryPct());
+            values.put(TableDesc.LAST_SERVER_COMM_DT, DateUtil.dateToSQLDateTime(dto.getLastServerCommDt()));
+            values.put(TableDesc.GCM_TOKEN, dto.getGcmToken());
+            values.put(TableDesc.CREATE_TIMESTAMP,DateUtil.dateToSQLDateTime(dto.getCreateTimestamp()));
+            values.put(TableDesc.UPDATE_TIMESTAMP,DateUtil.dateToSQLDateTime(dto.getUpdateTimestamp()));
+            values.put(TableDesc.VERSION, dto.getVersion());
 
             // updating row
             recordsAffected = this.getDb().update(TABLE_NAME, values,
-                    UserSession.UserSessionT.ID + " = ?",
+                    TableDesc.ID + " = ?",
                     new String[] { String.valueOf(dto.getId()) });
         }catch(Exception e){
             Log.e(TAG,"Unexpected error",e);
-        }finally{
-            //getDs().close();
         }
         return recordsAffected;
     }
 
     // Deleting single row
     public void delete(UserSessionEntity dto) {
-        this.getDb().delete(TABLE_NAME, UserSession.UserSessionT.ID + " = ?",
+        this.getDb().delete(TABLE_NAME, TableDesc.ID + " = ?",
                 new String[] { String.valueOf(dto.getId()) });
         //getDs().close();
     }
@@ -137,31 +133,28 @@ public class UserSessionDaoImpl implements IDao {
         UserSessionEntity dto = null;
         Cursor cursor = null;
         try{
-            String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + UserSession.UserSessionT.ID + " = " + id;
+            String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + TableDesc.ID + " = " + id;
             Log.d(TAG,"DB Query: " + selectQuery);
             cursor = this.getDb().rawQuery(selectQuery, new String[0]);
             Log.d(TAG,"Cursor count: " + cursor.getCount());
 
-            if (cursor != null){
-                if (cursor.moveToFirst()){
-                    dto = new UserSessionEntity();
+            if (cursor.moveToFirst()) {
+                dto = new UserSessionEntity();
 
-                    populateDto(dto, cursor);
-
-                }
+                populateDto(dto, cursor);
             }
+
         }catch(Exception e){
             Log.e(TAG,"Unexpected error",e);
         }finally{
             if (cursor!=null) cursor.close();
-            //getDs().close();
         }
         return dto;
     }
 
     // SELECT All rows
     public List<UserSessionEntity> findAll()  {
-        List<UserSessionEntity> list = new ArrayList<UserSessionEntity>();
+        List<UserSessionEntity> list = new ArrayList<>();
         Cursor cursor = null;
         try{
             // Select All Query
@@ -191,7 +184,7 @@ public class UserSessionDaoImpl implements IDao {
 
     // SELECT By dynamic Where
     public List<UserSessionEntity> findByDynamicWhere(String where) {
-        List<UserSessionEntity> list = new ArrayList<UserSessionEntity>();
+        List<UserSessionEntity> list = new ArrayList<>();
         Cursor cursor = null;
         try{
             // Select All Query
@@ -220,22 +213,25 @@ public class UserSessionDaoImpl implements IDao {
      * Populates a DTO with data from a Cursor
      *
      */
-    protected void populateDto(UserSessionEntity dto, Cursor cursor) {
-        dto.setId( Integer.parseInt(cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.ID))) );
+    public void populateDto(UserSessionEntity dto, Cursor cursor) {
+        DbCursorParserUtil parser = new DbCursorParserUtil(cursor);
 
-        dto.setUserName( cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.USER_NAME)) );
-        dto.setUserPass( cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.USER_PASS)) );
-        dto.setRememberUser( Integer.parseInt(cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.REMEMBER_USER))) );
-        dto.setLastLatitude( cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.LAST_LATITUDE)) );
-        dto.setLastLongitude( cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.LAST_LONGITUDE)) );
-        dto.setImei( cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.IMEI)) );
-        dto.setBatteryPct( Float.parseFloat(cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.BATTERY_PCT))) );
-        dto.setLastServerCommDt(DateUtil.parseDateTimeSQL(cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.LAST_SERVER_COMM_DT))));
-        dto.setGcmToken(cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.GCM_TOKEN)) );
+        dto.setId( parser.getInt(TableDesc.ID));
+        dto.setCreateTimestamp(parser.getSqlDateTime(TableDesc.CREATE_TIMESTAMP));
+        dto.setUpdateTimestamp(parser.getSqlDateTime(TableDesc.UPDATE_TIMESTAMP));
+        dto.setVersion( parser.getInt(TableDesc.VERSION));
 
-        dto.setCreateTimestamp(DateUtil.parseDateTimeSQL(cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.CREATE_TIMESTAMP))));
-        dto.setUpdateTimestamp(DateUtil.parseDateTimeSQL(cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.UPDATE_TIMESTAMP))));
-        dto.setVersion( Integer.parseInt(cursor.getString(cursor.getColumnIndex(UserSession.UserSessionT.VERSION))) );
+        dto.setUserName( parser.getString(TableDesc.USER_NAME));
+        dto.setUserPass( parser.getString(TableDesc.USER_PASS));
+        dto.setRememberUser( parser.getInt(TableDesc.REMEMBER_USER));
+        dto.setLastLatitude( parser.getString(TableDesc.LAST_LATITUDE));
+        dto.setLastLongitude( parser.getString(TableDesc.LAST_LONGITUDE));
+        dto.setImei( parser.getString(TableDesc.IMEI));
+        dto.setBatteryPct(parser.getFloat(TableDesc.BATTERY_PCT));
+        dto.setLastServerCommDt(parser.getSqlDateTime(TableDesc.LAST_SERVER_COMM_DT));
+        dto.setGcmToken(parser.getString(TableDesc.GCM_TOKEN));
+
+        parser = null;
     }
 
 }

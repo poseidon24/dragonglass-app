@@ -56,6 +56,9 @@ public class UserSessionBO {
     }
 
     public UserSessionEntity getUserSessionEntity() {
+        if (userSessionEntity!=null){
+            userSessionEntity = new UserSessionDaoImpl(this.context,this.ds).findByPrimaryKey(1);
+        }
         return userSessionEntity;
     }
 

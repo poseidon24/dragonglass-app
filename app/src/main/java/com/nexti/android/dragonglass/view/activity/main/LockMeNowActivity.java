@@ -1,21 +1,6 @@
-/***
-  Copyright (c) 2012 CommonsWare, LLC
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not
-  use this file except in compliance with the License. You may obtain a copy
-  of the License at http://www.apache.org/licenses/LICENSE-2.0. Unless required
-  by applicable law or agreed to in writing, software distributed under the
-  License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
-  OF ANY KIND, either express or implied. See the License for the specific
-  language governing permissions and limitations under the License.
-  
-  Covered in detail in the book _The Busy Coder's Guide to Android Development_
-    https://commonsware.com/Android
- */
-
 package com.nexti.android.dragonglass.view.activity.main;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AppOpsManager;
 import android.app.WallpaperManager;
 import android.app.admin.DevicePolicyManager;
@@ -25,25 +10,38 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.nexti.android.dragonglass.bo.DgMobileBO;
 import com.nexti.android.dragonglass.listener.AdminReceiver;
 import com.nexti.android.dragonglass.R;
+import com.nexti.android.dragonglass.model.dto.DgMobileDto;
+import com.nexti.android.dragonglass.model.dto.IDto;
+import com.nexti.android.dragonglass.model.entity.DgMobileEntity;
 import com.nexti.android.dragonglass.model.entity.UserSessionEntity;
+import com.nexti.android.dragonglass.network.MobileAccountRequest;
 import com.nexti.android.dragonglass.service.LockMeNowService;
-import com.nexti.android.dragonglass.view.activity.BaseSessionActivity;
+import com.nexti.android.dragonglass.view.activity.base.BaseSessionActivity;
+import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
+
+import org.springframework.beans.BeanUtils;
 
 import java.io.IOException;
 
 public class LockMeNowActivity extends BaseSessionActivity {
+  private final static String TAG = "LockMeNowActivity";
   private DevicePolicyManager mgr=null;
   private ComponentName cn=null;
   private Button buttonSetWallpaper;
   private ImageView imagePreview;
-  private LockMeNowService lockMeNowService;
+  private MobileAccountRequest mobileAccountRequest;
+
+  private static final String CACHE_KEY_MOBILE_ACCOUNT = "mobile_account";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -53,12 +51,14 @@ public class LockMeNowActivity extends BaseSessionActivity {
     cn=new ComponentName(this, AdminReceiver.class);
     mgr=(DevicePolicyManager)getSystemService(DEVICE_POLICY_SERVICE);
     initControls();
+    initWsContext();
   }
 
   @Override
   protected void onStart() {
     super.onStart();
-    testDbConnection();
+    //testDbConnection();
+    requestMobileAccountData();
   }
 
   private void initControls(){
@@ -66,10 +66,19 @@ public class LockMeNowActivity extends BaseSessionActivity {
     imagePreview = (ImageView)findViewById(R.id.ivPreview);
   }
 
+  private void initWsContext(){
+    mobileAccountRequest = new MobileAccountRequest(MobileAccountRequest.Method.GET_BY_ID);
+    mobileAccountRequest.setIdMobile(1);
+  }
+
+  private void requestMobileAccountData(){
+    getSpiceManager().execute(mobileAccountRequest, CACHE_KEY_MOBILE_ACCOUNT, DurationInMillis.ONE_MINUTE, new MobileAccountRequestListener());
+  }
+
   private void testDbConnection(){
     if (getUserSessionBO()!=null) {
       UserSessionEntity uSession = getUserSessionBO().getUserSessionEntity();
-      Toast.makeText(this, uSession.toString(), Toast.LENGTH_LONG).show();
+      Log.d(TAG, uSession.toString());
     }
   }
 
@@ -105,13 +114,16 @@ public class LockMeNowActivity extends BaseSessionActivity {
 
 
   public void startServiceLock(View view) {
-    requestUsageStatsPermission();
-    startService(new Intent(this, LockMeNowService.class));
+    if (LockMeNowService.stopped) {
+      requestUsageStatsPermission();
+      startService(new Intent(this, LockMeNowService.class));
+    }
   }
 
 
   public void stopServiceLock(View view) {
-    stopService(new Intent(this, LockMeNowService.class));
+    if (!LockMeNowService.stopped)
+      stopService(new Intent(this, LockMeNowService.class));
   }
 
   private void requestUsageStatsPermission() {
@@ -126,13 +138,51 @@ public class LockMeNowActivity extends BaseSessionActivity {
     AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
     int mode = appOps.checkOpNoThrow("android:get_usage_stats",
             android.os.Process.myUid(), context.getPackageName());
-    boolean granted = mode == AppOpsManager.MODE_ALLOWED;
-    return granted;
+    return mode == AppOpsManager.MODE_ALLOWED;
   }
 
 
   public void gotoConnectionLockActivity(View view){
     Intent intent = new Intent(this, ConnectionLockActivity.class);
     startActivity(intent);
+  }
+
+
+  private void processWsMobileAccountResponse(final IDto iDto){
+      DgMobileDto dgMobileDto = (DgMobileDto) iDto;
+      if (dgMobileDto!=null){
+        DgMobileBO dgMobileBO = new DgMobileBO(getApplicationContext(),getDataSource());
+        DgMobileEntity dgMobileEntity = dgMobileBO.convertDtoToEntity(dgMobileDto);
+        dgMobileEntity.setId(1); // ever update a unique record
+        dgMobileBO.save(dgMobileEntity);
+
+        if (dgMobileDto.getAppsAccessEnabled()==0
+                || dgMobileDto.getAppsAccessEnabled()==2
+                || dgMobileDto.getAppsAccessEnabled()==3){
+          //lock apps access
+          startServiceLock(null);
+        }else{
+          //unlock apps access
+          stopServiceLock(null);
+        }
+      }
+  }
+
+  // ============================================================================================
+  // INNER CLASSES
+  // ============================================================================================
+
+  public final class MobileAccountRequestListener implements RequestListener<IDto> {
+
+    @Override
+    public void onRequestFailure(SpiceException spiceException) {
+      Log.e(TAG, "WS response failure.", spiceException);
+    }
+
+    @Override
+    public void onRequestSuccess(final IDto result) {
+      Log.d(TAG, "WS response success: " + result.toString());
+      processWsMobileAccountResponse(result);
+    }
   }
 }

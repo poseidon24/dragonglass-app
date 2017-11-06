@@ -21,6 +21,9 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+    <!-- Generic Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- Permissions for Network (WiFi and Bluetooth) changes -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -64,8 +67,15 @@
             android:name=".service.LockMeNowService"
             android:enabled="true"
             android:exported="true" />
+        <service android:name=".network.BaseRetrofitSpiceService" />
+        <service
+            android:name=".service.UpdateServerDataService"
+            android:enabled="true"
+            android:exported="true"/>
 
-        <activity android:name=".view.activity.unlock.UnlockActivity" />
+        <activity
+            android:name=".view.activity.unlock.UnlockActivity"
+            android:parentActivityName=".view.activity.main.LockMeNowActivity" />
         <activity android:name=".view.activity.main.ConnectionLockActivity" />
 
         <!--
@@ -86,6 +96,7 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

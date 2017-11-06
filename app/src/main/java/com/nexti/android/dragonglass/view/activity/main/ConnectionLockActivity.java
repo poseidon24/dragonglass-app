@@ -1,6 +1,5 @@
 package com.nexti.android.dragonglass.view.activity.main;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -14,8 +13,9 @@ import com.nexti.android.dragonglass.R;
 import com.nexti.android.dragonglass.listener.IncomingCallReceiver;
 import com.nexti.android.dragonglass.listener.OutgoingCallReceiver;
 import com.nexti.android.dragonglass.util.NetworkUtil;
+import com.nexti.android.dragonglass.view.activity.base.BaseSessionActivity;
 
-public class ConnectionLockActivity extends Activity implements CompoundButton.OnCheckedChangeListener {
+public class ConnectionLockActivity extends BaseSessionActivity implements CompoundButton.OnCheckedChangeListener {
 
     // GUI controls
     private boolean wifiOn = true;

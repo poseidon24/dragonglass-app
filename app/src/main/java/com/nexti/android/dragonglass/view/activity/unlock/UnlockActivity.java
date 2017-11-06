@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.nexti.android.dragonglass.R;
 import com.nexti.android.dragonglass.service.LockMeNowService;
+import com.nexti.android.dragonglass.service.UpdateServerDataService;
 
 public class UnlockActivity extends Activity {
 
@@ -23,6 +24,7 @@ public class UnlockActivity extends Activity {
         setContentView(R.layout.activity_unlock);
 
         initGuiControls();
+        updateDataFromServer();
     }
 
     @Override
@@ -40,8 +42,8 @@ public class UnlockActivity extends Activity {
         String pwdUser = txtUnlockPass.getText().toString();
         if (password.equals(pwdUser)){
             //Unlock
-            //this.finish();
-            this.moveTaskToBack(true);
+            this.finish();
+            //this.moveTaskToBack(true);
         }else{
             // Show home screen
             showHomeScreen();
@@ -55,5 +57,9 @@ public class UnlockActivity extends Activity {
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(startMain);
         return true;
+    }
+
+    public void updateDataFromServer(){
+        startService(new Intent(this, UpdateServerDataService.class));
     }
 }

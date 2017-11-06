@@ -1,5 +1,6 @@
 package com.nexti.android.dragonglass.db;
 
+import android.content.ContentProvider;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -14,21 +15,12 @@ public class DataSource {
     private SQLiteDatabase db;
     private MySQLiteOpenHelper dbHelper;
 
-    private static Configuration appConfig = new Configuration();
-    // Database Name
-    private static String DATABASE_NAME = "";
-    // Database path (mnt/sdcard/fens/micro/)
-    private static String DATABASE_PATH = "";
-
     public DataSource(Context context) {
-        if (appConfig.getBdName() != null)
-            DATABASE_NAME = appConfig.getBdName();
+        String dbFullPath = Configuration.getInstance().DB_REPOSITORY
+                    + File.separator
+                    + Configuration.getInstance().DB_NAME;
 
-        if (appConfig.getRepositorioBD() != null)
-            DATABASE_PATH = appConfig.getRepositorioBD() + File.separator
-                    + DATABASE_NAME;
-
-        dbHelper = new MySQLiteOpenHelper(context, DATABASE_PATH);
+        dbHelper = new MySQLiteOpenHelper(context, dbFullPath);
     }
 
     public void open() {

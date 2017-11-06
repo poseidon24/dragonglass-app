@@ -1,3 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="C:\Users\ISCesar\.gradle\caches\modules-2\files-2.1\com.octo.android.robospice\robospice-cache\1.4.13\a0ee4617998e8700e9338ff9c2d59c4e28b3b146\robospice-cache-1.4.13.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="a0ee4617998e8700e9338ff9c2d59c4e28b3b146">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\robospice-cache-1.4.13_e46ccd254e839e130972ed31ca3b64539859b965\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\exploded-aar\com.jaredrummler\android-processes\1.0.9\jars\classes.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="9e870b9f964420865941da051c666f6339217002">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.jaredrummler-android-processes-1.0.9_79bb03b11515d4f52d122cebc78e615a890f8ba5\classes.dex" />
+    </item>
+    <item
+        jar="C:\Program Files\Android\Android Studio\gradle\m2repository\com\google\code\gson\gson\2.2.4\gson-2.2.4.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.2.4_313aff129984a0a45e086871ec03bfcc02e7284e\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="886a8afa4820580422a32894864721374e8c417a">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_acc48cedc22ceca0d2c83dd57bc26e9f1983f6ff\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.0.1_a9cb1cda539b93ee377cf2dd365ae63c8ec68944\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\.gradle\caches\modules-2\files-2.1\com.octo.android.robospice\robospice\1.4.13\eb9f563caf8fcbe62b5f11bb06330f671f8473fa\robospice-1.4.13.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="eb9f563caf8fcbe62b5f11bb06330f671f8473fa">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\robospice-1.4.13_156856dc62a6da9edb45e83857b7212c00ed8b03\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.0.1_b31e9974f62003bae62b6b87fdee2ca71ef2d241\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\.gradle\caches\modules-2\files-2.1\com.octo.android.robospice\robospice-retrofit\1.4.13\849512e27999dee4a287d01311fc488844ceb143\robospice-retrofit-1.4.13.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="849512e27999dee4a287d01311fc488844ceb143">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\robospice-retrofit-1.4.13_b67b04914ac5e9d4a1514fbcc0401281ba5c513a\classes.dex" />
+    </item>
+    <item
+        jar="C:\Program Files\Android\Android Studio\gradle\m2repository\org\apache\commons\commons-lang3\3.3.2\commons-lang3-3.3.2.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="90a3822c38ec8c996e84c16a3477ef632cbc87a3">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\commons-lang3-3.3.2_4314d5c387d123a62f2e97084dd070725c126438\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="426e5a4c69b23b926c86e39bec4f4b6afa8a5c74">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_8b06b91067ccf9b7d4fb223c8827a855e877900a\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.0.1_2ad5b85a8055e27e2784532876d81bdc4301ceef\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\.gradle\caches\modules-2\files-2.1\org.springframework\spring-beans\4.3.10.RELEASE\9d89b786f755f9b1da344f10f6f045f927679a72\spring-beans-4.3.10.RELEASE.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="9d89b786f755f9b1da344f10f6f045f927679a72">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\spring-beans-4.3.10.RELEASE_569454b0f2c092f1fcd62353f477b213945fe0f2\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\.gradle\caches\modules-2\files-2.1\org.springframework\spring-core\4.3.10.RELEASE\db1462df62dbedad7244da30ec471390660271c0\spring-core-4.3.10.RELEASE.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="db1462df62dbedad7244da30ec471390660271c0">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\spring-core-4.3.10.RELEASE_b4275b8ddd535a2f29793a0017aa4f1d7f68d6b4\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-io\1.3.2\b6dde38349ba9bb5e6ea6320531eae969985dae5\commons-io-1.3.2.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="b6dde38349ba9bb5e6ea6320531eae969985dae5">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\commons-io-1.3.2_85af399ca193657e65048c1414026e499bcb75f0\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.6.0\39a9e4b49ded46aa1b67d492fe287c4cebcd815c\retrofit-1.6.0.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="39a9e4b49ded46aa1b67d492fe287c4cebcd815c">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\retrofit-1.6.0_ba969e0f556345af3926e971547a93b9646a8c6f\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
+        jumboMode="true"
+        revision="25.0.3"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="C:\Users\ISCesar\AndroidStudioProjects\dragonglass-app\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.0.1_5b7eac0c0018afe57a3341cc8dcbd11bebfc7e14\classes.dex" />
+    </item>
+
+</items>
